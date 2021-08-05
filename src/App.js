@@ -26,6 +26,7 @@ function App() {
         <tbody>
           <Coin name="Bitcoin" ticker="BTC" price="$1000" />
           <Coin name="Ethereum" ticker="ETH" price="$2000" />
+          <Coin name="Dogecoin" ticker="DOGE" price="$0.02" />
         </tbody>
       </table>
 
