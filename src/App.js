@@ -1,5 +1,6 @@
 import './App.css';
 import Coin from './components/Coin';
+import Coin2 from './components/Coin2';
 import logo from './logo.svg';
 
 
@@ -24,9 +25,12 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          <Coin name="Bitcoin" ticker="BTC" price="$1000" />
-          <Coin name="Ethereum" ticker="ETH" price="$2000" />
-          <Coin name="Dogecoin" ticker="DOGE" price="$0.02" />
+          <Coin name="Bitcoin" ticker="BTC" price={45000} />
+          <Coin name="Ethereum" ticker="ETH" price={200} />
+          <Coin name="Dogecoin" ticker="DOGE" price={0.003} />
+          <Coin name="Tether" ticker ="USDT" price={1.0}/>
+          <Coin name="Ripple" ticker="XRP" price={0.4}/>
+          <Coin name="Ripple" ticker="XRP" price={0.4}/>
         </tbody>
       </table>
 
