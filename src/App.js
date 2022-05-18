@@ -1,6 +1,6 @@
 import './App.css';
-import Coin from './components/Coin';
-import Coin2 from './components/Coin2';
+import Coin from './components/Coin/Coin';
+import AccountBalance from './components/AccountBalance/AccountBalance';
 import logo from './logo.svg';
 
 
@@ -15,7 +15,7 @@ function App() {
         </h1>
      
       </header>
-
+      <AccountBalance amount={10000}/>
       <table className="coin-table">
         <thead>
           <tr>
@@ -29,7 +29,6 @@ function App() {
           <Coin name="Ethereum" ticker="ETH" price={200} />
           <Coin name="Dogecoin" ticker="DOGE" price={0.003} />
           <Coin name="Tether" ticker ="USDT" price={1.0}/>
-          <Coin name="Ripple" ticker="XRP" price={0.4}/>
           <Coin name="Ripple" ticker="XRP" price={0.4}/>
         </tbody>
       </table>
