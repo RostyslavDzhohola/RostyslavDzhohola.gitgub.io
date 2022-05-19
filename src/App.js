@@ -1,10 +1,14 @@
-import './App.css';
-import Coin from './components/Coin/Coin';
 import AccountBalance from './components/AccountBalance/AccountBalance';
-import logo from './logo.svg';
+import styled from 'styled-components';
 import React from 'react'
+import CoinList from './components/CoinList/CoinList';
+import Header from './components/Header/Header';
 
-
+const AppCss = styled.div`
+  text-align: center;
+  background-color: rgb(151, 69, 201);
+  color: rgb(255, 255, 255);
+`
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,33 +47,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-         <img src={logo} alt="React logo" className="App-logo"/>
-          <h1 className="App-title">
-            Coin Exchange 
-          </h1>
-       
-        </header>
+      <AppCss>
+        <Header />
         <AccountBalance amount={this.state.balance}/>
-        <table className="coin-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Ticker</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            { 
-              this.state.coinData.map(v => 
-                <Coin key={v.ticker} {...v}/>
-              )
-            }
-          </tbody>
-        </table>
-  
-      </div>
+        <CoinList coinData={this.state.coinData} />
+      </AppCss>
     );
   }
   
