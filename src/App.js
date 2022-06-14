@@ -2,7 +2,7 @@ import AccountBalance from './components/AccountBalance/AccountBalance';
 import styled from 'styled-components';
 import React from 'react'
 import CoinList from './components/CoinList/CoinList';
-import Header from './components/Header/Header';
+import ExchangeHeader from './components/ExchangeHeader/ExchangeHeader';
 
 const AppCss = styled.div`
   text-align: center;
@@ -48,7 +48,7 @@ class App extends React.Component {
   render() {
     return (
       <AppCss>
-        <Header />
+        <ExchangeHeader />
         <AccountBalance amount={this.state.balance}/>
         <CoinList coinData={this.state.coinData} />
       </AppCss>

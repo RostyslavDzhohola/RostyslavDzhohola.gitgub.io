@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import logo from '../../logo.svg';
+import logo from './logo.svg';
 import styled from 'styled-components';
 
-const AppHeader = styled.header`
+const Header = styled.header`
     background-color: #282c34;
     min-height: 20vh;
     display: flex;
@@ -11,23 +11,23 @@ const AppHeader = styled.header`
     justify-content: flex-start;
     color: white;
 `
-const AppTitle = styled.h1`
+const H1 = styled.h1`
   font-size: 5rem;
 `
-const AppLogo = styled.img`
+const Img = styled.img`
   height: 8rem;
   pointer-events: none;
 `
 
-export default class Header extends Component {
+export default class ExchangeHeader extends Component {
   render() {
     return (
-        <AppHeader>
-        <AppLogo src={logo} alt="React logo"/>
-         <AppTitle>
+        <Header>
+        <Img src={logo} alt="React logo"/>
+         <H1>
            Coin Exchange 
-         </AppTitle>
-       </AppHeader>
+         </H1>
+       </Header>
     )
   }
 }
