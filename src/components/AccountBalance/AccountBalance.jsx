@@ -13,11 +13,39 @@ const Section = styled.section`
     border-bottom: 1px solid black;
 `;
 
+const Button = styled.button`
+    background-color: #A6FFB5;
+    font-weight: bold;
+    font-size: 1rem;
+    position: absolute;
+    margin-top: 1.5rem;
+    left: 100%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    align: right;
+    
+
+`;
 export default class AccountBalance extends Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                buttonState: true,
+            }
+            this.handleButton = this.handleButton.bind(this);
+        }
+        handleButton = () => {
+            this.setState({
+                buttonState: !this.state.buttonState,
+            })
+            console.log(this.state.buttonState);
+        }
     render() {
+        const buttonText = this.props.showBalance ? 'Hide' : 'Show';
         return (
         <Section>
-            Balance: ${this.props.amount}
+            {this.state.buttonState && (<>Balance: ${this.props.amount}</>)}
+            <Button onClick={this.handleButton}>{buttonText}</Button>
         </Section>
         );
     }

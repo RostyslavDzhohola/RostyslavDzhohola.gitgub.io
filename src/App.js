@@ -18,17 +18,17 @@ class App extends React.Component {
         {
           name: "Bitcoin", 
           ticker: "BTC",
-          price: 29999.99
+          price: 21000
         },
         {
           name: "Ethereum", 
           ticker: "ETH",
-          price: 1900
+          price: 1100
         },
         {
           name: "Dogecoin", 
           ticker: "DOGE",
-          price: 0.003
+          price: 0.04
         },
         {
           name: "Tether", 
@@ -38,7 +38,7 @@ class App extends React.Component {
         {
           name: "Solana", 
           ticker: "SOL",
-          price: 50
+          price: 25
         }
 
       ]
@@ -66,7 +66,7 @@ class App extends React.Component {
     return (
       <AppCss>
         <ExchangeHeader />
-        <AccountBalance amount={this.state.balance}/>
+        <AccountBalance amount={this.state.balance} showBalance={true}/>
         <CoinList coinData={this.state.coinData} handleRefresh={this.handleRefresh}/>
       </AppCss>
     );
