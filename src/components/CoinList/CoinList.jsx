@@ -8,28 +8,32 @@ const Table = styled.table`
     font-size: 1.5rem;
 `
 export default class CoinList extends Component {
-  render() {
-    return (
-        <Table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Ticker</th>
-                <th>Price</th>
-            </tr>
-            </thead>
-            <tbody>
-            { 
-                this.props.coinData.map(({name, ticker, price}) => 
-                    <Coin key={ticker} 
-                    handleRefresh={this.props.handleRefresh}
-                    name={name} 
-                    ticker={ticker} 
-                    price={price} />
-                )
-            }
-            </tbody>
-        </Table>
-    )
+    render() {
+        return (
+            <Table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ticker</th>
+                    <th>Price</th>
+                    <th>Balance</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                { 
+                    this.props.coinData.map(({name, ticker, price, balance}) => 
+                        <Coin key={ticker} 
+                        handleRefresh={this.props.handleRefresh}
+                        name={name} 
+                        ticker={ticker}
+                        balance={balance}
+                        price={price}
+                        buttonState={this.props.buttonState} />
+                    )
+                }
+                </tbody>
+            </Table>
+        )
   }
 }

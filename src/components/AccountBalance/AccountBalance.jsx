@@ -27,25 +27,21 @@ const Button = styled.button`
 
 `;
 export default class AccountBalance extends Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                buttonState: true,
-            }
-            this.handleButton = this.handleButton.bind(this);
-        }
-        handleButton = () => {
-            this.setState({
-                buttonState: !this.state.buttonState,
-            })
-            console.log(this.state.buttonState);
-        }
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick(event) {
+        event.preventDefault();
+        this.props.handleHide();     
+    }
+        
     render() {
-        const buttonText = this.props.showBalance ? 'Hide' : 'Show';
+        const buttonText = this.props.buttonState ? 'Hide' : 'Show';
         return (
         <Section>
-            {this.state.buttonState && (<>Balance: ${this.props.amount}</>)}
-            <Button onClick={this.handleButton}>{buttonText}</Button>
+            {this.props.buttonState && (<>Balance: ${this.props.amount}</>)}
+            <Button onClick={this.handleClick}>{buttonText}</Button>
         </Section>
         );
     }
