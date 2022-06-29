@@ -15,6 +15,7 @@ export default class Coin extends Component {
   
    handleClick(event) {
       event.preventDefault();
+      this.props.calculateBalance();
       this.props.handleRefresh(this.props.ticker);     
    }
      

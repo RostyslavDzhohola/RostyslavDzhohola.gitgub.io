@@ -40,7 +40,7 @@ export default class AccountBalance extends Component {
         const buttonText = this.props.buttonState ? 'Hide' : 'Show';
         return (
         <Section>
-            {this.props.buttonState && (<>Balance: ${this.props.amount}</>)}
+            {this.props.buttonState && (<>Balance: ${(this.props.amount).toFixed(2)}</>)}
             <Button onClick={this.handleClick}>{buttonText}</Button>
         </Section>
         );

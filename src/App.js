@@ -14,24 +14,24 @@ class App extends React.Component {
     super(props);
     this.state = {
       buttonState: true,
-      balance: 20000,
+      balance: 0,
       coinData: [
         {
           name: "Bitcoin", 
           ticker: "BTC",
           balance: 0.5,
-          price: 21000
+          price: 20000
         },
         {
           name: "Ethereum", 
           ticker: "ETH",
           balance: 32.0,
-          price: 1100
+          price: 1000
         },
         {
           name: "Dogecoin", 
           ticker: "DOGE",
-          balance: 10000,
+          balance: 1000,
           price: 0.04
         },
         {
@@ -43,7 +43,7 @@ class App extends React.Component {
         {
           name: "Solana", 
           ticker: "SOL",
-          balance: 1000,
+          balance: 100,
           price: 25
         }
 
@@ -51,6 +51,17 @@ class App extends React.Component {
     }
     this.handleRefresh = this.handleRefresh.bind(this);
     this.handleHide = this.handleHide.bind(this);
+    this.calculateBalance = this.calculateBalance.bind(this);
+  }
+
+  calculateBalance(){
+    let totalBalance = 0;
+    this.state.coinData.forEach(function( {price, balance}){
+      totalBalance = totalBalance + (balance * price);
+      return totalBalance;
+    })
+    this.setState({balance: totalBalance});
+    console.log("Total balance is ",totalBalance);
   }
 
   handleHide = () => {
@@ -86,6 +97,7 @@ class App extends React.Component {
           buttonState={this.state.buttonState}
           handleHide={this.handleHide} />
         <CoinList 
+          calculateBalance={this.calculateBalance}
           coinData={this.state.coinData} 
           handleRefresh={this.handleRefresh} 
           handleHide={this.handleHide}

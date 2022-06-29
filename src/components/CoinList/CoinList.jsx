@@ -7,6 +7,7 @@ const Table = styled.table`
     display: inline-block;
     font-size: 1.5rem;
 `
+
 export default class CoinList extends Component {
     render() {
         return (
@@ -29,7 +30,8 @@ export default class CoinList extends Component {
                         ticker={ticker}
                         balance={balance}
                         price={price}
-                        buttonState={this.props.buttonState} />
+                        buttonState={this.props.buttonState}
+                        calculateBalance={this.props.calculateBalance} />
                     )
                 }
                 </tbody>
