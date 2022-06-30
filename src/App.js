@@ -10,51 +10,44 @@ const AppCss = styled.div`
   color: rgb(255, 255, 255);
 `
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      buttonState: true,
-      balance: 0,
-      coinData: [
-        {
-          name: "Bitcoin", 
-          ticker: "BTC",
-          balance: 0.5,
-          price: 20000
-        },
-        {
-          name: "Ethereum", 
-          ticker: "ETH",
-          balance: 32.0,
-          price: 1000
-        },
-        {
-          name: "Dogecoin", 
-          ticker: "DOGE",
-          balance: 1000,
-          price: 0.04
-        },
-        {
-          name: "Tether", 
-          ticker: "USDT",
-          balance: 0,
-          price: 1.0
-        },
-        {
-          name: "Solana", 
-          ticker: "SOL",
-          balance: 100,
-          price: 25
-        }
-
-      ]
-    }
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handleHide = this.handleHide.bind(this);
-    this.calculateBalance = this.calculateBalance.bind(this);
+  state = {
+    buttonState: true,
+    balance: 0,
+    coinData: [
+      {
+        name: "Bitcoin", 
+        ticker: "BTC",
+        balance: 0.5,
+        price: 20000
+      },
+      {
+        name: "Ethereum", 
+        ticker: "ETH",
+        balance: 32.0,
+        price: 1000
+      },
+      {
+        name: "Dogecoin", 
+        ticker: "DOGE",
+        balance: 1000,
+        price: 0.04
+      },
+      {
+        name: "Tether", 
+        ticker: "USDT",
+        balance: 0,
+        price: 1.0
+      },
+      {
+        name: "Solana", 
+        ticker: "SOL",
+        balance: 100,
+        price: 25
+      }
+    ]
   }
 
-  calculateBalance(){
+  calculateBalance = () => {
     let totalBalance = 0;
     this.state.coinData.forEach(function( {price, balance}){
       totalBalance = totalBalance + (balance * price);
@@ -71,19 +64,14 @@ class App extends React.Component {
     console.log(this.state.buttonState);
   }
 
-  handleRefresh(valueChangeTicker){
-    const newCoinData = this.state.coinData.map( function( {ticker, name, price, balance} ) {
-      let newPrice = price;
-      if ( valueChangeTicker === ticker) {
+  handleRefresh = (valueChangeTicker) => {
+    const newCoinData = this.state.coinData.map( function(values) {
+      let newValues = {...values};  // * Shallow clone of the original object to avoid pointer issue. 
+      if ( valueChangeTicker === newValues.ticker) {
         const randomPercentage = 0.995 + Math.random() * 0.01;
-        newPrice = newPrice * randomPercentage;
+        newValues.price *= randomPercentage;
       }
-      return {
-        ticker,
-        name,
-        balance,
-        price: newPrice
-      }
+      return newValues;
     });
     this.setState({coinData: newCoinData});
   }

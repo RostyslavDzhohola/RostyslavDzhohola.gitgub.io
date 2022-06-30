@@ -8,12 +8,12 @@ const Td = styled.td`
 `
 
 export default class Coin extends Component {
-   constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-   }
+   // constructor(props) {
+   //    super(props);
+   //    this.handleClick = this.handleClick.bind(this);
+   // }
   
-   handleClick(event) {
+   handleClick = (event) => {
       event.preventDefault();
       this.props.calculateBalance();
       this.props.handleRefresh(this.props.ticker);     
