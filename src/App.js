@@ -3,48 +3,66 @@ import styled from 'styled-components';
 import React from 'react'
 import CoinList from './components/CoinList/CoinList';
 import ExchangeHeader from './components/ExchangeHeader/ExchangeHeader';
+import axios from 'axios';
 
 const AppCss = styled.div`
   text-align: center;
   background-color: rgb(151, 69, 201);
   color: rgb(255, 255, 255);
 `
+const COIN_COUNT = 10;
 class App extends React.Component {
   state = {
     buttonState: true,
     balance: 0,
     coinData: [
-      {
-        name: "Bitcoin", 
-        ticker: "BTC",
-        balance: 0.5,
-        price: 20000
-      },
-      {
-        name: "Ethereum", 
-        ticker: "ETH",
-        balance: 32.0,
-        price: 1000
-      },
-      {
-        name: "Dogecoin", 
-        ticker: "DOGE",
-        balance: 1000,
-        price: 0.04
-      },
-      {
-        name: "Tether", 
-        ticker: "USDT",
-        balance: 0,
-        price: 1.0
-      },
-      {
-        name: "Solana", 
-        ticker: "SOL",
-        balance: 100,
-        price: 25
-      }
+      // {
+      //   name: "Bitcoin", 
+      //   ticker: "BTC",
+      //   balance: 0.5,
+      //   price: 20000
+      // },
+      // {
+      //   name: "Ethereum", 
+      //   ticker: "ETH",
+      //   balance: 32.0,
+      //   price: 1000
+      // },
+      // {
+      //   name: "Dogecoin", 
+      //   ticker: "DOGE",
+      //   balance: 1000,
+      //   price: 0.04
+      // },
+      // {
+      //   name: "Tether", 
+      //   ticker: "USDT",
+      //   balance: 0,
+      //   price: 1.0
+      // },
+      // {
+      //   name: "Solana", 
+      //   ticker: "SOL",
+      //   balance: 100,
+      //   price: 25
+      // }
     ]
+  }
+
+  componentDidMount = async () => {
+    this.calculateBalance();
+    
+    let response = await axios.get('https://api.coinpaprika.com/v1/ticker')
+    let coinList = response.data.slice(0, COIN_COUNT).map(function(coin) {
+      return {
+        key: coin.id,
+        name: coin.name,
+        ticker: coin.symbol,
+        balance: 0,
+        price: Number(coin.price_usd)
+      }  
+    });
+    this.setState({coinData: coinList});
   }
 
   calculateBalance = () => {
