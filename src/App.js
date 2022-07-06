@@ -51,18 +51,23 @@ class App extends React.Component {
 
   componentDidMount = async () => {
     this.calculateBalance();
-    
-    let response = await axios.get('https://api.coinpaprika.com/v1/ticker')
-    let coinList = response.data.slice(0, COIN_COUNT).map(function(coin) {
+
+    const response = await axios.get('https://api.coinpaprika.com/v1/coins')
+    const coinIDs = response.data.slice(0, COIN_COUNT).map(coin => coin.id);
+    const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
+    const promises = coinIDs.map(id => axios.get(tickerURL + id));
+    const coinData = await Promise.all(promises);
+    const coinPriceData = coinData.map( function(response) {
+      const coin = response.data;
       return {
         key: coin.id,
         name: coin.name,
         ticker: coin.symbol,
         balance: 0,
-        price: Number(coin.price_usd)
-      }  
+        price: coin.quotes.USD.price,
+      }
     });
-    this.setState({coinData: coinList});
+    this.setState({ coinData: coinPriceData });
   }
 
   calculateBalance = () => {
@@ -82,12 +87,20 @@ class App extends React.Component {
     console.log(this.state.buttonState);
   }
 
-  handleRefresh = (valueChangeTicker) => {
-    const newCoinData = this.state.coinData.map( function(values) {
+  handleRefresh = (valueChangeKey) => {
+    const newCoinData =  this.state.coinData.map( function(values) {
       let newValues = {...values};  // * Shallow clone of the original object to avoid pointer issue. 
-      if ( valueChangeTicker === newValues.ticker) {
-        const randomPercentage = 0.995 + Math.random() * 0.01;
-        newValues.price *= randomPercentage;
+      const response = axios.get('https://api.coinpaprika.com/v1/tickers/' + newValues.key);
+      if ( valueChangeKey === newValues.ticker) {
+        console.log("Key is", newValues.key);
+        
+        response.then(function(response) {
+          const coin = response.data;
+          newValues.price = coin.quotes.USD.price;
+          console.log("Price is ", newValues.price);
+        }).catch(function(error) {
+          console.log(error);
+        });
       }
       return newValues;
     });
@@ -105,6 +118,7 @@ class App extends React.Component {
         <CoinList 
           calculateBalance={this.calculateBalance}
           coinData={this.state.coinData} 
+          
           handleRefresh={this.handleRefresh} 
           handleHide={this.handleHide}
           buttonState={this.state.buttonState}
