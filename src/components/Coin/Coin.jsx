@@ -16,7 +16,7 @@ export default class Coin extends Component {
    handleClick = (event) => {
       event.preventDefault();
       this.props.calculateBalance();
-      this.props.handleRefresh(this.props.ticker);    // this.props.key is the coin's id 
+      this.props.handleRefresh(this.props.id);    // this.props.key is the coin's id 
    }
      
    render() {

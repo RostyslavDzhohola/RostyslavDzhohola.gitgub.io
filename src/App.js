@@ -63,6 +63,7 @@ class App extends React.Component {
         key: coin.id,
         name: coin.name,
         ticker: coin.symbol,
+        id: coin.id,
         balance: 0,
         price: coin.quotes.USD.price,
       }
@@ -87,24 +88,24 @@ class App extends React.Component {
     console.log(this.state.buttonState);
   }
 
-  handleRefresh = (valueChangeKey) => {
-    const newCoinData =  this.state.coinData.map( function(values) {
-      let newValues = {...values};  // * Shallow clone of the original object to avoid pointer issue. 
-      const response = axios.get('https://api.coinpaprika.com/v1/tickers/' + newValues.key);
-      if ( valueChangeKey === newValues.ticker) {
-        console.log("Key is", newValues.key);
-        
-        response.then(function(response) {
-          const coin = response.data;
-          newValues.price = coin.quotes.USD.price;
-          console.log("Price is ", newValues.price);
-        }).catch(function(error) {
-          console.log(error);
-        });
+  handleRefresh = async (valueChangeId) => {
+    const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
+    const response = await axios.get(tickerURL + valueChangeId);
+    const newCoinData = this.state.coinData.map( function(coin) {
+      if (valueChangeId === coin.id) {
+        console.log("Price of the", coin.name, "is", response.data.quotes.USD.price);
+        return {
+          key: coin.key,
+          name: coin.name,
+          ticker: coin.ticker,
+          id: coin.id,
+          balance: coin.balance,
+          price: response.data.quotes.USD.price,
+        }
       }
-      return newValues;
+      return coin;
     });
-    this.setState({coinData: newCoinData});
+    this.setState({ coinData: newCoinData });
   }
 
   render() {
