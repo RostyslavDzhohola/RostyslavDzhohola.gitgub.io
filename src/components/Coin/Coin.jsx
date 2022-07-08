@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -7,34 +7,27 @@ const Td = styled.td`
    width: 20vh;
 `
 
-export default class Coin extends Component {
-   // constructor(props) {
-   //    super(props);
-   //    this.handleClick = this.handleClick.bind(this);
-   // }
-  
-   handleClick = (event) => {
+export default function Coin (props) {
+   const handleClick = (event) => {
       event.preventDefault();
-      this.props.calculateBalance();
-      this.props.handleRefresh(this.props.id);    // this.props.key is the coin's id 
+      props.calculateBalance();
+      props.handleRefresh(props.id);    // this.props.key is the coin's id 
    }
-     
-   render() {
-      return (
-         <tr>
-            <Td>{this.props.name}</Td>
-            <Td>{this.props.ticker}</Td>
-            <Td>${parseFloat((this.props.price).toFixed(3))}</Td>
-            {this.props.buttonState ? (<Td>{this.props.balance}</Td>) : (<Td>Hidden</Td>)}
-            {/* <Td>{this.props.balance}</Td> */}
-            <Td>
-               <form action="#" method="POST">
-                  <button onClick={this.handleClick}>Refresh</button>
-               </form>
-            </Td>
-         </tr>
-      );
-   }
+   
+   return (
+      <tr>
+         <Td>{props.name}</Td>
+         <Td>{props.ticker}</Td>
+         <Td>${parseFloat(Number(props.price).toFixed(3))}</Td>
+         {props.showBalance ? (<Td>{props.balance}</Td>) : (<Td>Hidden</Td>)}
+         {/* <Td>{this.props.balance}</Td> */}
+         <Td>
+            <form action="#" method="POST">
+               <button onClick={handleClick}>Refresh</button>
+            </form>
+         </Td>
+      </tr>
+   );
 }
 
 Coin.propTypes = {

@@ -1,6 +1,6 @@
 import AccountBalance from './components/AccountBalance/AccountBalance';
 import styled from 'styled-components';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CoinList from './components/CoinList/CoinList';
 import ExchangeHeader from './components/ExchangeHeader/ExchangeHeader';
 import axios from 'axios';
@@ -11,46 +11,14 @@ const AppCss = styled.div`
   color: rgb(255, 255, 255);
 `
 const COIN_COUNT = 10;
-class App extends React.Component {
-  state = {
-    buttonState: true,
-    balance: 0,
-    coinData: [
-      // {
-      //   name: "Bitcoin", 
-      //   ticker: "BTC",
-      //   balance: 0.5,
-      //   price: 20000
-      // },
-      // {
-      //   name: "Ethereum", 
-      //   ticker: "ETH",
-      //   balance: 32.0,
-      //   price: 1000
-      // },
-      // {
-      //   name: "Dogecoin", 
-      //   ticker: "DOGE",
-      //   balance: 1000,
-      //   price: 0.04
-      // },
-      // {
-      //   name: "Tether", 
-      //   ticker: "USDT",
-      //   balance: 0,
-      //   price: 1.0
-      // },
-      // {
-      //   name: "Solana", 
-      //   ticker: "SOL",
-      //   balance: 100,
-      //   price: 25
-      // }
-    ]
-  }
 
-  componentDidMount = async () => {
-    this.calculateBalance();
+function App(props)   {
+  const [balance, setBalance] = useState(10000);
+  const [showBalance, setShowBalance] = useState(true);
+  const [coinData, setCoinData] = useState([]);
+
+  const componentDidMount = async () => {
+    calculateBalance();
 
     const response = await axios.get('https://api.coinpaprika.com/v1/coins')
     const coinIDs = response.data.slice(0, COIN_COUNT).map(coin => coin.id);
@@ -68,65 +36,64 @@ class App extends React.Component {
         price: coin.quotes.USD.price,
       }
     });
-    this.setState({ coinData: coinPriceData });
+    setCoinData( coinPriceData );
   }
 
-  calculateBalance = () => {
+  useEffect(() => {
+    if (coinData.length === 0 ) {
+      componentDidMount();
+    }
+  }); 
+
+
+  const calculateBalance = () => {
     let totalBalance = 0;
-    this.state.coinData.forEach(function( {price, balance}){
+    coinData.forEach(function( {price, balance}){
       totalBalance = totalBalance + (balance * price);
       return totalBalance;
     })
-    this.setState({balance: totalBalance});
+    setBalance(totalBalance);
     console.log("Total balance is ",totalBalance);
   }
 
-  handleHide = () => {
-    this.setState({
-        buttonState: !this.state.buttonState,
-    })
-    console.log(this.state.buttonState);
+  const handleHide = () => {
+    setShowBalance(!showBalance);
+    console.log(showBalance);
   }
 
-  handleRefresh = async (valueChangeId) => {
-    const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
-    const response = await axios.get(tickerURL + valueChangeId);
-    const newCoinData = this.state.coinData.map( function(coin) {
+  const handleRefresh = async (valueChangeId) => {
+    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${valueChangeId}`;
+    const response = await axios.get(tickerURL);
+    debugger;
+    const newPrice = response.data.quotes.USD.price;
+    const newCoinData = coinData.map( function(coin) {
+      let newValues = {...coin}
       if (valueChangeId === coin.id) {
-        console.log("Price of the", coin.name, "is", response.data.quotes.USD.price);
-        return {
-          key: coin.key,
-          name: coin.name,
-          ticker: coin.ticker,
-          id: coin.id,
-          balance: coin.balance,
-          price: response.data.quotes.USD.price,
-        }
+        console.log("Price of the", coin.name, "is", newPrice);
+        newValues.price = newPrice;
       }
-      return coin;
+      return newValues;
     });
-    this.setState({ coinData: newCoinData });
+    setCoinData(newCoinData);
   }
 
-  render() {
-    return (
-      <AppCss>
-        <ExchangeHeader />
-        <AccountBalance 
-          amount={this.state.balance} //pass buttonState to AccountBalance component to determine whether to show or hide
-          buttonState={this.state.buttonState}
-          handleHide={this.handleHide} />
-        <CoinList 
-          calculateBalance={this.calculateBalance}
-          coinData={this.state.coinData} 
-          
-          handleRefresh={this.handleRefresh} 
-          handleHide={this.handleHide}
-          buttonState={this.state.buttonState}
-          />
-      </AppCss>
-    );
-  }
+  return (
+    <AppCss>
+      <ExchangeHeader />
+      <AccountBalance 
+        amount={balance}
+        showBalance={showBalance}
+        handleHide={handleHide} />
+      <CoinList 
+        calculateBalance={calculateBalance}
+        coinData={coinData} 
+        
+        handleRefresh={handleRefresh} 
+        handleHide={handleHide}
+        showBalance={showBalance}
+        />
+    </AppCss>
+  );
   
 }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -26,25 +26,20 @@ const Button = styled.button`
     
 
 `;
-export default class AccountBalance extends Component {
-    constructor(props) {
-        super(props);
-        this.handleClick = this.handleClick.bind(this);
-    }
-    handleClick(event) {
+export default function AccountBalance(props) {
+    const handleClick = (event) => {
         event.preventDefault();
-        this.props.handleHide();     
+        props.handleHide();     
     }
-        
-    render() {
-        const buttonText = this.props.buttonState ? 'Hide' : 'Show';
-        return (
+
+    const buttonText = props.showBalance ? 'Hide' : 'Show';
+    return (
         <Section>
-            {this.props.buttonState && (<>Balance: ${(this.props.amount).toFixed(2)}</>)}
-            <Button onClick={this.handleClick}>{buttonText}</Button>
+            {props.showBalance && (<>Balance: ${(props.amount).toFixed(2)}</>)}
+            <Button onClick={handleClick}>{buttonText}</Button>
         </Section>
-        );
-    }
+    );
+    
 }
 
 
