@@ -64,7 +64,6 @@ function App(props)   {
   const handleRefresh = async (valueChangeId) => {
     const tickerURL = `https://api.coinpaprika.com/v1/tickers/${valueChangeId}`;
     const response = await axios.get(tickerURL);
-    debugger;
     const newPrice = response.data.quotes.USD.price;
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
