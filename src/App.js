@@ -1,21 +1,24 @@
-import AccountBalance from './components/AccountBalance/AccountBalance';
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react'
 import CoinList from './components/CoinList/CoinList';
-import ExchangeHeader from './components/ExchangeHeader/ExchangeHeader';
+import AccountBalanceHeader from './components/AccountBalanceHeader/AccountBalanceHeader';
+import CoinDetails from './components/CoinDetails/CoinDetails';
 import axios from 'axios';
 
 const AppCss = styled.div`
   text-align: center;
-  background-color: rgb(151, 69, 201);
-  color: rgb(255, 255, 255);
+  background-color: white ; 
+  color: rgb(255, 255, 255); 
+  width: 100%; 
 `
 const COIN_COUNT = 10;
 
-function App(props)   {
+function App(props) {
   const [balance, setBalance] = useState(10000);
   const [showBalance, setShowBalance] = useState(true);
   const [coinData, setCoinData] = useState([]);
+  const [coinDetailReveal, setCoinDetailReveal] = useState(false);
+  const [coinDetail, setCoinDetail] = useState();
 
   const componentDidMount = async () => {
     calculateBalance();
@@ -39,20 +42,13 @@ function App(props)   {
     setCoinData( coinPriceData );
   }
 
-  useEffect(() => {
-    if (coinData.length === 0 ) {
-      componentDidMount();
-    }
-  }); 
-
-
   const calculateBalance = () => {
     let totalBalance = 0;
     coinData.forEach(function( {price, balance}){
       totalBalance = totalBalance + (balance * price);
       return totalBalance;
     })
-    setBalance(totalBalance);
+    setBalance(totalBalance + balance); // Later change this to be a function that takes in the coinData and calculates the balance for each coin and adds it to the total balance
     console.log("Total balance is ",totalBalance);
   }
 
@@ -76,21 +72,43 @@ function App(props)   {
     setCoinData(newCoinData);
   }
 
+  const handleInfo = (valueChangeId) => {
+    debugger;
+    setCoinDetailReveal(!coinDetailReveal);
+    if (coinDetailReveal) {
+      setCoinDetail(valueChangeId);
+    }
+    debugger;
+  }
+
+  useEffect(() => {
+    if ( coinData.length === 0 ) {
+      componentDidMount();
+    }
+  }); 
+
   return (
     <AppCss>
-      <ExchangeHeader />
-      <AccountBalance 
+      <AccountBalanceHeader 
         amount={balance}
         showBalance={showBalance}
-        handleHide={handleHide} />
-      <CoinList 
-        calculateBalance={calculateBalance}
-        coinData={coinData} 
-        
-        handleRefresh={handleRefresh} 
         handleHide={handleHide}
-        showBalance={showBalance}
-        />
+      />
+      { !coinDetailReveal ? 
+        <CoinList 
+          calculateBalance={calculateBalance}
+          coinData={coinData} 
+          
+          handleRefresh={handleRefresh} 
+          handleHide={handleHide}
+          showBalance={showBalance}
+          handleInfo={handleInfo} /> 
+        : 
+        <CoinDetails 
+          handleInfo={handleInfo}
+          coinDetail={coinDetail}
+        /> 
+      }
     </AppCss>
   );
   

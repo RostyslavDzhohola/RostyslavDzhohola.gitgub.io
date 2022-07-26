@@ -6,6 +6,7 @@ const Table = styled.table`
     margin: 50px auto 50px auto;
     display: inline-block;
     font-size: 1.5rem;
+    color: black;
 `
 
 export default function CoinList(props) {
@@ -16,6 +17,7 @@ export default function CoinList(props) {
                 <th>Name</th>
                 <th>Ticker</th>
                 <th>Price</th>
+                <th>Graph</th>
                 <th>Balance</th>
                 <th>Action</th>
             </tr>
@@ -31,7 +33,8 @@ export default function CoinList(props) {
                             id={id}
                             showBalance={props.showBalance}
                             calculateBalance={props.calculateBalance}
-                            handleRefresh={props.handleRefresh} />
+                            handleRefresh={props.handleRefresh}
+                            handleInfo={props.handleInfo} />
                 )
             }
             </tbody>
