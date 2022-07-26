@@ -19,7 +19,7 @@ const Div = styled.div`
 export default function CoinDetails(props) {
     const handleBackClick = (event) => {
         event.preventDefault();
-        props.handleInfo(); // click back button to go back to CoinList
+        props.handleInfo(false); // click back button to go back to CoinList
     }
   return (
     <>

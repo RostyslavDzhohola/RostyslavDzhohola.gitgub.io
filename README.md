@@ -75,4 +75,4 @@ Rostyslav's notes and links
 
 - Arrow functions -> https://www.w3schools.com/Js/js_arrow_function.asp
 - Shallow cloning -> https://dmitripavlutin.com/javascript-shallow-clone-objects/
-- 
+- React Hooks Rules -> https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level

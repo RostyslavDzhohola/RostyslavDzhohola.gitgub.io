@@ -27,7 +27,8 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "plugin:react-hooks/recommended"
     ]
   },
   "browserslist": {
@@ -46,6 +47,7 @@
     "styled-components": "^5"
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0",
     "gh-pages": "^4.0.0"
   }
 }

@@ -72,13 +72,15 @@ function App(props) {
     setCoinData(newCoinData);
   }
 
-  const handleInfo = (valueChangeId) => {
-    debugger;
+  const handleInfo = (valueChangeId) => {  
+    let newCoin;
     setCoinDetailReveal(!coinDetailReveal);
-    if (coinDetailReveal) {
-      setCoinDetail(valueChangeId);
+    if (valueChangeId) {
+      newCoin = valueChangeId;
+      console.log("valueChangeId is", valueChangeId);
     }
-    debugger;
+    setCoinDetail(newCoin);
+    console.log("Coin detail is ", coinDetail);
   }
 
   useEffect(() => {
