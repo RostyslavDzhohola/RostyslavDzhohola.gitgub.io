@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import CoinNews from '../CoinNews/CoinNews';
+import CoinData from '../CoinData/CoinData';
 import CoinTweets from '../CoinTweets/CoinTweets';
 
 const Div = styled.div`
@@ -25,9 +25,9 @@ export default function CoinDetails(props) {
     <>
         <button type="button" onClick={handleBackClick}>To Coinlist</button>
         <Div>
-            <CoinNews />
+            <CoinData />
             <> I display coin  = {props.coinDetail}</>
-            <CoinTweets />
+            <CoinTweets coinDetail={props.coinDetail}/>
         </Div>
     </>
   )

@@ -72,7 +72,7 @@ function App(props) {
     setCoinData(newCoinData);
   }
 
-  const handleInfo = (valueChangeId) => {  
+  const handleInfo = (valueChangeId) => {
     let newCoin;
     setCoinDetailReveal(!coinDetailReveal);
     if (valueChangeId) {

@@ -39,7 +39,7 @@ export default function Coin (props) {
    }
    const handleInfoClick = (event) => {
       event.preventDefault();
-      props.handleInfo(props.id);
+      props.handleInfo(props.ticker);
    }
    
    return (
