@@ -23,7 +23,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: raw;
   justify-content: space-between;
-  width: 18rem;
+  width: 28rem;
   font: bold;
   font-size: 1.2rem;
     ${'' /* width: 50%;
@@ -64,8 +64,14 @@ export default function AccountBalanceHeader(props) {
       <Header>
         <Img src={logo} alt="My logo"/>
         <Section>
-          <>Total Balance: </>
-          {props.showBalance && (<> ${(props.amount).toFixed(2)}</>)}
+          <div>
+            Crypto Balance:
+
+          </div>
+          <div>
+            <div>Cash Balance: </div>
+            <div>{props.showBalance && (<> ${Number(props.amount).toFixed(2)}</>)}</div>
+          </div>
           <Button onClick={handleClick}>{buttonText}</Button>
           <Button onClick={handleAirdrop}>Airdrop</Button>
         </Section>

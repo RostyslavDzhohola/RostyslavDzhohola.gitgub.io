@@ -15,7 +15,6 @@ export default function CoinList(props) {
             <thead>
             <tr>
                 <th>Name</th>
-                <th>Ticker</th>
                 <th>Price</th>
                 <th>Graph</th>
                 <th>Balance</th>
@@ -24,17 +23,19 @@ export default function CoinList(props) {
             </thead>
             <tbody>
             { 
-                props.coinData.map(({key, name, ticker, id, price, balance}) => 
+                props.coinData.map(({key, name, ticker, id, price, coinBalance, coinCashBalane}) => 
                     <Coin   key={key} 
                             name={name} 
                             ticker={ticker}
-                            balance={balance}
-                            price={price}
+                            coinBalance={coinBalance}
+                            coinCashBalane={coinCashBalane}
+                            price={Number(price)}
                             id={id}
                             showBalance={props.showBalance}
                             calculateBalance={props.calculateBalance}
                             handleRefresh={props.handleRefresh}
-                            handleInfo={props.handleInfo} />
+                            handleInfo={props.handleInfo}
+                            handleTrade={props.handleTrade} />
                 )
             }
             </tbody>

@@ -14,11 +14,12 @@ const AppCss = styled.div`
 const COIN_COUNT = 10;
 
 function App(props) {
-  const [balance, setBalance] = useState(10000);
+  const [cashBalance, setCashBalance] = useState(10000);
   const [showBalance, setShowBalance] = useState(true);
   const [coinData, setCoinData] = useState([]);
   const [coinDetailReveal, setCoinDetailReveal] = useState(false);
   const [coinDetail, setCoinDetail] = useState();
+  // const [coinBuySellAmount, setCoinBuySellAmount] = useState(0);
 
   const componentDidMount = async () => {
     calculateBalance();
@@ -35,7 +36,8 @@ function App(props) {
         name: coin.name,
         ticker: coin.symbol,
         id: coin.id,
-        balance: 0,
+        coinBalance: 0,
+        coinCashBalane: 0,
         price: coin.quotes.USD.price,
       }
     });
@@ -48,7 +50,7 @@ function App(props) {
       totalBalance = totalBalance + (balance * price);
       return totalBalance;
     })
-    setBalance(totalBalance + balance); // Later change this to be a function that takes in the coinData and calculates the balance for each coin and adds it to the total balance
+    setCashBalance(totalBalance + cashBalance); // Later change this to be a function that takes in the coinData and calculates the balance for each coin and adds it to the total balance
     console.log("Total balance is ",totalBalance);
   }
 
@@ -60,17 +62,41 @@ function App(props) {
   const handleRefresh = async (valueChangeId) => {
     const tickerURL = `https://api.coinpaprika.com/v1/tickers/${valueChangeId}`;
     const response = await axios.get(tickerURL);
-    const newPrice = response.data.quotes.USD.price;
+    const newPrice = response.data.quotes.USD.price; // newPrice string to number
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
       if (valueChangeId === coin.id) {
-        console.log("Price of the", coin.name, "is", newPrice);
+        console.log("Price of the", coin.name, "is", newPrice.typeof);
         newValues.price = newPrice;
       }
       return newValues;
     });
     setCoinData(newCoinData);
   }
+  const handleTrade = async (coinId, amount, trade) => {
+    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${coinId}`;
+    const response = await axios.get(tickerURL);
+    const newPrice = Number(response.data.quotes.USD.price).toFixed(3);
+    const newCoinData = coinData.map( function(coin) {
+      let newValues = {...coin}
+      if (coinId === coin.id) {
+        newValues.price = newPrice;
+        if (trade === true) {
+          newValues.coinBalance = newValues.coinBalance + amount/newPrice;
+          newValues.coinCashBalane = newValues.coinBalance * newPrice;
+          setCashBalance(cashBalance - amount);
+          console.log("Coin balance is", newValues.coinBalance, "and cash balance is", newValues.coinCashBalane);
+        } else {
+          newValues.coinBalance = newValues.coinBalance - amount/newPrice;
+          newValues.coinCashBalane = newValues.coinBalance * amount;
+          setCashBalance(cashBalance + amount);
+          console.log("Coin balance is", newValues.coinBalance, "and cash balance is", newValues.coinCashBalane);
+        }
+      }
+      return newValues;
+    }  ); 
+    setCoinData(newCoinData);
+  } // End of handleTrade
 
   const handleInfo = (valueChangeId) => {
     let newCoin;
@@ -83,6 +109,10 @@ function App(props) {
     console.log("Coin detail is ", coinDetail);
   }
 
+  const handleAirdrop = () => {
+    setCashBalance(cashBalance + 1200);
+  }
+
   useEffect(() => {
     if ( coinData.length === 0 ) {
       componentDidMount();
@@ -92,19 +122,20 @@ function App(props) {
   return (
     <AppCss>
       <AccountBalanceHeader 
-        amount={balance}
+        amount={cashBalance}
         showBalance={showBalance}
         handleHide={handleHide}
+        handleAirdrop={handleAirdrop}
       />
       { !coinDetailReveal ? 
         <CoinList 
           calculateBalance={calculateBalance}
           coinData={coinData} 
-          
           handleRefresh={handleRefresh} 
           handleHide={handleHide}
           showBalance={showBalance}
-          handleInfo={handleInfo} /> 
+          handleInfo={handleInfo}
+          handleTrade={handleTrade} /> 
         : 
         <CoinDetails 
           handleInfo={handleInfo}

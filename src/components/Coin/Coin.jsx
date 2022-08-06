@@ -2,17 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import info from  './info.png';
+import { useState } from 'react';
 
 const Td = styled.td`
    border: 2px solid black;
    width: 25vh;
 `
+const TdCoinName = styled.td`
+   width: 30vh;
+   border: 2px solid black;
+`
 const Div = styled.div`
    display: flex;
    flex-direction: row;
    justify-content: space-between;
+   font-size: 3vh;
+   font-weight: bold;
+`
+const DivTickerBox = styled.div`
+   display: flex;
+   flex-direction: row;
+   font-style: italic;
+`
+const DivBalance = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 35vh;
+   font-size: 1.2rem;
 `
 const Img = styled.img`
+   align-self: center;
    height: 1.5rem;
    border-radius: 1rem;
    &:hover {
@@ -30,38 +49,70 @@ const Form = styled.form`
 `
 const ImgGraph = styled.img`
 `
+const DivTicker = styled.div`
+   display: flex;
+   align-items: center;
+   font-size: 0.8rem;
+   font-weight: bold;
+`
 
 export default function Coin (props) {
-   const handleClick = (event) => {
-      event.preventDefault();
-      props.calculateBalance();
-      props.handleRefresh(props.id);    // this.props.key is the coin's id 
-   }
+   const [coinInput, setCoinInput] = useState(0);
+   // const handleClick = (event) => {
+   //    event.preventDefault();
+   //    props.handleRefresh(props.id);    // this.props.key is the coin's id 
+   // }
    const handleInfoClick = (event) => {
       event.preventDefault();
       props.handleInfo(props.ticker);
    }
+   const handleChange = (event) => {
+      event.preventDefault();
+      setCoinInput(event.target.value);
+   }
+   const handleBuy = (event) => {
+      event.preventDefault();
+      props.handleTrade(props.id, coinInput, true);
+   }
+   const handleSell = (event) => {
+      event.preventDefault();
+      props.handleTrade(props.id, coinInput, false);
+   }
    
    return (
       <tr>
-         <Td>
+         <TdCoinName>
             <Div>
-               <>{props.name}</>
-               <Img src={info} alt="info" onClick={handleInfoClick}/>
+               {props.name} 
+               <DivTickerBox>
+                  <DivTicker>{props.ticker}</DivTicker>
+                  <Img src={info} alt="info" onClick={handleInfoClick}/>
+               </DivTickerBox>
             </Div>
-         </Td>
-         <Td>{props.ticker}</Td>
+         </TdCoinName>
          <Td>${parseFloat(Number(props.price).toFixed(3))}</Td>
          <Td><ImgGraph alt="graph"/></Td>
-
-         {props.showBalance ? (<Td>{props.balance}</Td>) : (<Td>Hidden</Td>)}
+         {props.showBalance ? (
+            <Td>
+               <DivBalance>
+                  <div>${parseFloat(Number(props.coinCashBalane).toFixed(3)) }</div>
+                  <div>{parseFloat(Number(props.coinBalance).toFixed(5))} {props.ticker}</div>
+               </DivBalance>
+            </Td>) : (<Td>Hidden</Td>)}
 
          <Td>
             <Form action="#" method="POST">
-               <Button onClick={handleClick}>Buy</Button>
+               <Button onClick={handleBuy}>Buy</Button>
                $
-               <input  type="number" min="0" placeholder={0} name="price"/>
-               <Button onClick={handleClick}>Sell</Button>
+               <input   
+                  type="number" 
+                  min="0" 
+                  placeholder={0} 
+                  name="price"
+                  onChange={handleChange}
+                  value={coinInput}
+                  />
+               <Button onClick={handleSell}>Sell</Button>
             </Form>
          </Td>
       </tr>
@@ -71,5 +122,7 @@ export default function Coin (props) {
 Coin.propTypes = {
    name: PropTypes.string.isRequired,
    ticker: PropTypes.string.isRequired,
-   price: PropTypes.number.isRequired 
+   price: PropTypes.number.isRequired,
+   coinBalance: PropTypes.number.isRequired,
+   coinCashBalane: PropTypes.number.isRequired,
 }
