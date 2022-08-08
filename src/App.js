@@ -68,12 +68,16 @@ function App(props) {
     console.log(showBalance);
   }
 
-  
+  const handleCoinPriceRquest = async (coinId) => {
+    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${coinId}`;
+    const response = await axios.get(tickerURL);
+    const newPrice = response.data.quotes.USD.price; 
+    return newPrice;
+  }
+    
 
   const handleRefresh = async (valueChangeId) => {
-    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${valueChangeId}`;
-    const response = await axios.get(tickerURL);
-    const newPrice = response.data.quotes.USD.price; // newPrice string to number
+    const newPrice = await handleCoinPriceRquest(valueChangeId);
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
       if (valueChangeId === coin.id) {
@@ -85,10 +89,7 @@ function App(props) {
     setCoinData(newCoinData);
   }
   const handleTrade = async (coinId, amount, trade) => {
-
-    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${coinId}`;
-    const response = await axios.get(tickerURL);
-    const newPrice = response.data.quotes.USD.price;
+    const newPrice = await handleCoinPriceRquest(coinId);
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
       if (coinId === coin.id) {
