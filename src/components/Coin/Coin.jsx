@@ -12,6 +12,12 @@ const TdCoinName = styled.td`
    width: 30vh;
    border: 2px solid black;
 `
+const TdHidden = styled.td`
+   border: 2px solid black;
+   height: 0vh;
+   width: 35vh;
+   font-size: 2.4rem;
+`
 const Div = styled.div`
    display: flex;
    flex-direction: row;
@@ -27,7 +33,7 @@ const DivTickerBox = styled.div`
 const DivBalance = styled.div`
    display: flex;
    flex-direction: column;
-   width: 35vh;
+   width: 30vh;
    font-size: 1.2rem;
 `
 const Img = styled.img`
@@ -70,13 +76,19 @@ export default function Coin (props) {
       event.preventDefault();
       setCoinInput(event.target.value);
    }
-   const handleBuy = (event) => {
+   const handleBuy = async (event) => {
       event.preventDefault();
-      props.handleBuy(props.id, Number(coinInput));
+      const sucess = await props.handleBuy(props.id, Number(coinInput));
+      if (sucess) {
+         setCoinInput(0);
+      }
    }
-   const handleSell = (event) => {
+   const handleSell = async (event) => {
       event.preventDefault();
-      props.handleSell(props.id, Number(coinInput));
+      const success = await props.handleSell(props.id, Number(coinInput));
+      if (success) {
+         setCoinInput(0);
+      }
    }
 
    return (
@@ -98,7 +110,7 @@ export default function Coin (props) {
                   <div>${ Number(props.coinBalance * props.price).toFixed(2)}</div>
                   <div>{parseFloat(Number(props.coinBalance).toFixed(5))} {props.ticker}</div>
                </DivBalance>
-            </Td>) : (<Td>Hidden</Td>)}
+            </Td>) : (<TdHidden>Hidden</TdHidden>)}
 
          <Td>
             <Form action="#" method="POST">

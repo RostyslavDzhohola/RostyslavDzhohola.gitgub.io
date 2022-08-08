@@ -35,6 +35,8 @@ const Section = styled.section`
 `;
 
 const Button = styled.button`
+  margin: 1em;
+  padding: 0.25em 0.5em;
     ${'' /* background-color: #A6FFB5;
     font-weight: bold;
     font-size: 1rem;
@@ -44,7 +46,6 @@ const Button = styled.button`
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     align: right; */}
-    
 
 `;
 export default function AccountBalanceHeader(props) {

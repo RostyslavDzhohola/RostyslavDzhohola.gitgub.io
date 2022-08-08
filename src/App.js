@@ -89,6 +89,7 @@ function App(props) {
   }
 
   const handleBuy = async (coinId, amount) => {
+    let success;
     if (amount <= cashBalance) {
       const newPrice = await handleCoinPriceRquest(coinId);
       const newCoinData = coinData.map( function(coin) {
@@ -103,31 +104,38 @@ function App(props) {
         return newValues;
       }); 
       setCoinData(newCoinData);
+      success = true;
     } else {
       console.log("You don't have enough cash");
       alert("You don't have enough cash");
+      success = false;
     }
+    return success;
   }
 
   const handleSell = async (coinId, amount) => {
+    let success;
     const newPrice = await handleCoinPriceRquest(coinId);
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
       if (coinId === coin.id) {
-        if (amount/newPrice > coin.coinBalance) {
-          console.log("Not enough", coin.name, "to sell");
-          alert("Not enough " + coin.name +  " to sell");
-        } else {
+        if (amount/newPrice < coin.coinBalance) {
           newValues.price = newPrice;
           newValues.coinBalance = newValues.coinBalance - amount/newPrice;
           const newCashBalance = cashBalance + amount;
           setCashBalance(newCashBalance);
           console.log("Coin balance is", newValues.coinBalance);
+          success = true;
+        } else {
+          console.log("Not enough", coin.name, "to sell");
+          alert("Not enough " + coin.name +  " to sell");
+          success = false;
         }
       }
       return newValues;
     }); 
     setCoinData(newCoinData);
+    return success;
   }
 
   const handleInfo = (valueChangeId) => {
