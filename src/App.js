@@ -37,7 +37,6 @@ function App(props) {
         ticker: coin.symbol,
         id: coin.id,
         coinBalance: 0,
-        coinCashBalane: 0,
         price: coin.quotes.USD.price,
       }
     });
@@ -54,10 +53,22 @@ function App(props) {
     console.log("Total balance is ",totalBalance);
   }
 
+  // const calculateEachCoinBalance = () => {
+  //   const newCoinData = coinData.map(function(coin){
+  //     let newValues = {...coin};
+  //     const coinCashBalane = coin.price * coin.coinBalance;
+  //     newValues.coinCashBalane = coinCashBalane;
+  //     return newValues;
+  //   })
+  //   setCoinData(newCoinData);
+  // }
+
   const handleHide = () => {
     setShowBalance(!showBalance);
     console.log(showBalance);
   }
+
+  
 
   const handleRefresh = async (valueChangeId) => {
     const tickerURL = `https://api.coinpaprika.com/v1/tickers/${valueChangeId}`;
@@ -74,28 +85,30 @@ function App(props) {
     setCoinData(newCoinData);
   }
   const handleTrade = async (coinId, amount, trade) => {
+
     const tickerURL = `https://api.coinpaprika.com/v1/tickers/${coinId}`;
     const response = await axios.get(tickerURL);
-    const newPrice = Number(response.data.quotes.USD.price).toFixed(3);
+    const newPrice = response.data.quotes.USD.price;
     const newCoinData = coinData.map( function(coin) {
       let newValues = {...coin}
       if (coinId === coin.id) {
         newValues.price = newPrice;
         if (trade === true) {
           newValues.coinBalance = newValues.coinBalance + amount/newPrice;
-          newValues.coinCashBalane = newValues.coinBalance * newPrice;
-          setCashBalance(cashBalance - amount);
-          console.log("Coin balance is", newValues.coinBalance, "and cash balance is", newValues.coinCashBalane);
+          const newCashBalance = cashBalance - amount;
+          setCashBalance(newCashBalance);
+          console.log("Coin balance is", newValues.coinBalance);
         } else {
           newValues.coinBalance = newValues.coinBalance - amount/newPrice;
-          newValues.coinCashBalane = newValues.coinBalance * amount;
-          setCashBalance(cashBalance + amount);
-          console.log("Coin balance is", newValues.coinBalance, "and cash balance is", newValues.coinCashBalane);
+          const newCashBalance = cashBalance + amount;
+          setCashBalance(newCashBalance);
+          console.log("Coin balance is", newValues.coinBalance);
         }
       }
       return newValues;
-    }  ); 
+    }); 
     setCoinData(newCoinData);
+    // calculateEachCoinBalance();
   } // End of handleTrade
 
   const handleInfo = (valueChangeId) => {

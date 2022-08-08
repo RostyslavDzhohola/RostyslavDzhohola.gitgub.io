@@ -72,13 +72,13 @@ export default function Coin (props) {
    }
    const handleBuy = (event) => {
       event.preventDefault();
-      props.handleTrade(props.id, coinInput, true);
+      props.handleTrade(props.id, Number(coinInput), true);
    }
    const handleSell = (event) => {
       event.preventDefault();
-      props.handleTrade(props.id, coinInput, false);
+      props.handleTrade(props.id, Number(coinInput), false);
    }
-   
+
    return (
       <tr>
          <TdCoinName>
@@ -95,7 +95,7 @@ export default function Coin (props) {
          {props.showBalance ? (
             <Td>
                <DivBalance>
-                  <div>${parseFloat(Number(props.coinCashBalane).toFixed(3)) }</div>
+                  <div>${ Number(props.coinBalance * props.price).toFixed(2)}</div>
                   <div>{parseFloat(Number(props.coinBalance).toFixed(5))} {props.ticker}</div>
                </DivBalance>
             </Td>) : (<Td>Hidden</Td>)}
@@ -124,5 +124,4 @@ Coin.propTypes = {
    ticker: PropTypes.string.isRequired,
    price: PropTypes.number.isRequired,
    coinBalance: PropTypes.number.isRequired,
-   coinCashBalane: PropTypes.number.isRequired,
 }

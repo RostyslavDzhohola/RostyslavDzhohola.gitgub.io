@@ -23,12 +23,11 @@ export default function CoinList(props) {
             </thead>
             <tbody>
             { 
-                props.coinData.map(({key, name, ticker, id, price, coinBalance, coinCashBalane}) => 
+                props.coinData.map(({key, name, ticker, id, price, coinBalance}) => 
                     <Coin   key={key} 
                             name={name} 
                             ticker={ticker}
                             coinBalance={coinBalance}
-                            coinCashBalane={coinCashBalane}
                             price={Number(price)}
                             id={id}
                             showBalance={props.showBalance}
