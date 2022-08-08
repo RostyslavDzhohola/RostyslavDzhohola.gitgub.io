@@ -72,11 +72,11 @@ export default function Coin (props) {
    }
    const handleBuy = (event) => {
       event.preventDefault();
-      props.handleTrade(props.id, Number(coinInput), true);
+      props.handleBuy(props.id, Number(coinInput));
    }
    const handleSell = (event) => {
       event.preventDefault();
-      props.handleTrade(props.id, Number(coinInput), false);
+      props.handleSell(props.id, Number(coinInput));
    }
 
    return (

@@ -75,7 +75,6 @@ function App(props) {
     return newPrice;
   }
     
-
   const handleRefresh = async (valueChangeId) => {
     const newPrice = await handleCoinPriceRquest(valueChangeId);
     const newCoinData = coinData.map( function(coin) {
@@ -88,18 +87,38 @@ function App(props) {
     });
     setCoinData(newCoinData);
   }
-  const handleTrade = async (coinId, amount, trade) => {
-    const newPrice = await handleCoinPriceRquest(coinId);
-    const newCoinData = coinData.map( function(coin) {
-      let newValues = {...coin}
-      if (coinId === coin.id) {
-        newValues.price = newPrice;
-        if (trade === true) {
+
+  const handleBuy = async (coinId, amount) => {
+    if (amount <= cashBalance) {
+      const newPrice = await handleCoinPriceRquest(coinId);
+      const newCoinData = coinData.map( function(coin) {
+        let newValues = {...coin}
+        if (coinId === coin.id) {
+          newValues.price = newPrice;
           newValues.coinBalance = newValues.coinBalance + amount/newPrice;
           const newCashBalance = cashBalance - amount;
           setCashBalance(newCashBalance);
           console.log("Coin balance is", newValues.coinBalance);
+        }
+        return newValues;
+      }); 
+      setCoinData(newCoinData);
+    } else {
+      console.log("You don't have enough cash");
+      alert("You don't have enough cash");
+    }
+  }
+
+  const handleSell = async (coinId, amount) => {
+    const newPrice = await handleCoinPriceRquest(coinId);
+    const newCoinData = coinData.map( function(coin) {
+      let newValues = {...coin}
+      if (coinId === coin.id) {
+        if (amount/newPrice > coin.coinBalance) {
+          console.log("Not enough", coin.name, "to sell");
+          alert("Not enough " + coin.name +  " to sell");
         } else {
+          newValues.price = newPrice;
           newValues.coinBalance = newValues.coinBalance - amount/newPrice;
           const newCashBalance = cashBalance + amount;
           setCashBalance(newCashBalance);
@@ -109,8 +128,7 @@ function App(props) {
       return newValues;
     }); 
     setCoinData(newCoinData);
-    // calculateEachCoinBalance();
-  } // End of handleTrade
+  }
 
   const handleInfo = (valueChangeId) => {
     let newCoin;
@@ -149,7 +167,8 @@ function App(props) {
           handleHide={handleHide}
           showBalance={showBalance}
           handleInfo={handleInfo}
-          handleTrade={handleTrade} /> 
+          handleBuy={handleBuy}
+          handleSell={handleSell} /> 
         : 
         <CoinDetails 
           handleInfo={handleInfo}

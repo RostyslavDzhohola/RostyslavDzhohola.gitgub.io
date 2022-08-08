@@ -34,7 +34,8 @@ export default function CoinList(props) {
                             calculateBalance={props.calculateBalance}
                             handleRefresh={props.handleRefresh}
                             handleInfo={props.handleInfo}
-                            handleTrade={props.handleTrade} />
+                            handleBuy={props.handleBuy}
+                            handleSell={props.handleSell} />
                 )
             }
             </tbody>
