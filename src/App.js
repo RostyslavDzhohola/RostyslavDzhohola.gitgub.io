@@ -11,7 +11,7 @@ const AppCss = styled.div`
   color: rgb(255, 255, 255); 
   width: 100%; 
 `
-const COIN_COUNT = 10;
+const COIN_COUNT = 30;
 
 function App(props) {
   const [cashBalance, setCashBalance] = useState(10000);
