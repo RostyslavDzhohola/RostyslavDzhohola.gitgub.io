@@ -12,20 +12,18 @@ export const historyOptions = {
   responsive: false,
   hover: false,
 
-
-
   scales: {
-    xAxes: 
-      {
-      type: 'time',
-      distribution: 'linear',
-      display: false,
-      }
-    ,
-    yAxes: 
-      {
-      display: false,
-      }
-    
+      xAxes: [
+          {
+          type: 'time',
+          distribution: 'linear',
+          display: false,
+          }
+      ],
+      yAxes: [
+          {
+          display: false,
+          }
+      ]
   },
 }

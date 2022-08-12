@@ -16,7 +16,7 @@ export default function CoinList(props) {
             <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Chart</th>
+                <th>Chart 24H</th>
                 <th>Balance</th>
                 <th>Action</th>
             </tr>
@@ -35,7 +35,6 @@ export default function CoinList(props) {
 
                             showBalance={props.showBalance}
                             calculateBalance={props.calculateBalance}
-                            handleRefresh={props.handleRefresh}
                             handleInfo={props.handleInfo}
                             handleBuy={props.handleBuy}
                             handleSell={props.handleSell} />

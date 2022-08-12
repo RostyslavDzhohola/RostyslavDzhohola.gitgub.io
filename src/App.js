@@ -94,18 +94,18 @@ function App(props) {
     return newPrice;
   }
     
-  const handleRefresh = async (valueChangeId) => {
-    const newPrice = await handleCoinPriceRquest(valueChangeId);
-    const newCoinData = coinData.map( function(coin) {
-      let newValues = {...coin}
-      if (valueChangeId === coin.id) {
-        console.log("Price of the", coin.name, "is", newPrice.typeof);
-        newValues.price = newPrice;
-      }
-      return newValues;
-    });
-    setCoinData(newCoinData);
-  }
+  // const handleRefresh = async (valueChangeId) => {
+  //   const newPrice = await handleCoinPriceRquest(valueChangeId);
+  //   const newCoinData = coinData.map( function(coin) {
+  //     let newValues = {...coin}
+  //     if (valueChangeId === coin.id) {
+  //       console.log("Price of the", coin.name, "is", newPrice.typeof);
+  //       newValues.price = newPrice;
+  //     }
+  //     return newValues;
+  //   });
+  //   setCoinData(newCoinData);
+  // }
 
   const handleBuy = async (coinId, amount) => {
     console.log("Coin id is ", coinId);
@@ -191,7 +191,6 @@ function App(props) {
         <CoinList 
           calculateBalance={calculateBalance}
           coinData={coinData} 
-          handleRefresh={handleRefresh} 
           handleHide={handleHide}
           showBalance={showBalance}
           handleInfo={handleInfo}

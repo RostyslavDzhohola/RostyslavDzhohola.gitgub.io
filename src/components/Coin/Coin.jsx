@@ -19,6 +19,10 @@ const TdHidden = styled.td`
    width: 35vh;
    font-size: 2.4rem;
 `
+// TdChart is a temprorary component that will be replaced by a Chart component
+const TdChart = styled.td`     
+   border: 2px solid black;
+`
 const Div = styled.div`
    display: flex;
    flex-direction: row;
@@ -65,10 +69,7 @@ const DivTicker = styled.div`
 
 export default function Coin (props) {
    const [coinInput, setCoinInput] = useState(0);
-   // const handleClick = (event) => {
-   //    event.preventDefault();
-   //    props.handleRefresh(props.id);    // this.props.key is the coin's id 
-   // }
+   
    const handleInfoClick = (event) => {
       event.preventDefault();
       props.handleInfo(props.ticker);
@@ -104,11 +105,11 @@ export default function Coin (props) {
             </Div>
          </TdCoinName>
          <Td>${parseFloat(Number(props.price).toFixed(3))}</Td>
-         <Td><ChartData
+         <TdChart><ChartData
                name={props.name}
                id={props.id}
                priceChange24h={props.priceChange24h} />
-         </Td>
+         </TdChart>
          {props.showBalance ? (
             <Td>
                <DivBalance>
