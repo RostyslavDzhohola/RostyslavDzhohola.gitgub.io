@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import info from  './info.png';
 import { useState } from 'react';
+import ChartData from '../Chart/ChartData';
 
 const Td = styled.td`
    border: 2px solid black;
@@ -103,7 +104,11 @@ export default function Coin (props) {
             </Div>
          </TdCoinName>
          <Td>${parseFloat(Number(props.price).toFixed(3))}</Td>
-         <Td><ImgGraph alt="graph"/></Td>
+         <Td><ChartData
+               name={props.name}
+               id={props.id}
+               priceChange24h={props.priceChange24h} />
+         </Td>
          {props.showBalance ? (
             <Td>
                <DivBalance>

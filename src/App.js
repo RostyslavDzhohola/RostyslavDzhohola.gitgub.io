@@ -12,6 +12,7 @@ const AppCss = styled.div`
   width: 100%; 
 `
 const COIN_COUNT = 30;
+const formatPrice = price => parseFloat(Number(price).toFixed(4));
 
 function App(props) {
   const [cashBalance, setCashBalance] = useState(10000);
@@ -24,23 +25,39 @@ function App(props) {
   const componentDidMount = async () => {
     calculateBalance();
 
-    const response = await axios.get('https://api.coinpaprika.com/v1/coins')
-    const coinIDs = response.data.slice(0, COIN_COUNT).map(coin => coin.id);
-    const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
-    const promises = coinIDs.map(id => axios.get(tickerURL + id));
-    const coinData = await Promise.all(promises);
-    const coinPriceData = coinData.map( function(response) {
-      const coin = response.data;
+    const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets',{
+      params: {
+        vs_currency: 'usd',
+        ids: ''
+      }
+    });
+    const coinData = response.data.slice(0, COIN_COUNT).map(function (coin) {
       return {
         key: coin.id,
         name: coin.name,
+        image: coin.image,
         ticker: coin.symbol,
         id: coin.id,
         coinBalance: 0,
-        price: coin.quotes.USD.price,
-      }
+        price: formatPrice(coin.current_price),
+        priceChange24h: parseFloat(Number(coin.price_change_percentage_24h).toFixed(2)),
+      };
     });
-    setCoinData( coinPriceData );
+    setCoinData( coinData );
+    // const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
+    // const promises = coinIDs.map(id => axios.get(tickerURL + id));
+    // const coinData = await Promise.all(promises);
+    // const coinPriceData = coinData.map( function(response) {
+    //   const coin = response.data;
+    //   return {
+    //     key: coin.id,
+    //     name: coin.name,
+    //     ticker: coin.symbol,
+    //     id: coin.id,
+    //     coinBalance: 0,
+    //     price: coin.quotes.USD.price,
+    //   }
+    // });
   }
 
   const calculateBalance = () => {
@@ -69,9 +86,11 @@ function App(props) {
   }
 
   const handleCoinPriceRquest = async (coinId) => {
-    const tickerURL = `https://api.coinpaprika.com/v1/tickers/${coinId}`;
+    const tickerURL = `https://api.coingecko.com/api/v3/coins/${coinId}`;
     const response = await axios.get(tickerURL);
-    const newPrice = response.data.quotes.USD.price; 
+    // console.log( "Response data is " ,response.data );  --> Checking if the response is correct
+    const newPrice = response.data.market_data.current_price.usd; 
+    console.log("New price for ", coinId, " is ", newPrice); // --> Checking if the new price is correct
     return newPrice;
   }
     
@@ -89,6 +108,7 @@ function App(props) {
   }
 
   const handleBuy = async (coinId, amount) => {
+    console.log("Coin id is ", coinId);
     let success;
     if (amount <= cashBalance) {
       const newPrice = await handleCoinPriceRquest(coinId);
