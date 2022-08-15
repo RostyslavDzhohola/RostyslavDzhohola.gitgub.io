@@ -5,11 +5,10 @@ import { TwitterTimelineEmbed } from 'react-twitter-embed';
 export default function CoinTweets(props) {
   return (
     <div>
-      <>CoinTweets</> 
-      <br/>
+      Twitter
       <TwitterTimelineEmbed
         sourceType="timeline"
-        screenName="Bitcoin"
+        screenName="bitcoin"
         options={{height: 400}}
       />
     </div>

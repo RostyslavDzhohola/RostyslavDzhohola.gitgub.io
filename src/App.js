@@ -19,7 +19,9 @@ function App(props) {
   const [showBalance, setShowBalance] = useState(true);
   const [coinData, setCoinData] = useState([]);
   const [coinDetailReveal, setCoinDetailReveal] = useState(false);
-  const [coinDetail, setCoinDetail] = useState();
+  const [coinDescription, setCoinDescription] = useState();
+  const [coinTwitter, setCoinTwitter] = useState();
+
   // const [coinBuySellAmount, setCoinBuySellAmount] = useState(0);
 
   const componentDidMount = async () => {
@@ -158,15 +160,24 @@ function App(props) {
     return success;
   }
 
-  const handleInfo = (valueChangeId) => {
-    let newCoin;
+  // const getCoinInfo = () => {
+    
+
+
+  const handleInfo = async (valueChangeId) => {
+    // debugger;
+    console.log("Coin id is ", valueChangeId);
+    const tickerURL = `https://api.coingecko.com/api/v3/coins/${valueChangeId}`;
+    const response = await axios.get(tickerURL);
+    const coinInfo = response.data.description.en;
+    const coinTwitter = response.data.links.twitter_screen_name;
+    setCoinTwitter(coinTwitter);
+    setCoinDescription(coinInfo);
     setCoinDetailReveal(!coinDetailReveal);
-    if (valueChangeId) {
-      newCoin = valueChangeId;
-      console.log("valueChangeId is", valueChangeId);
-    }
-    setCoinDetail(newCoin);
-    console.log("Coin detail is ", coinDetail);
+  }
+
+  const handleBack = () => {
+    setCoinDetailReveal(!coinDetailReveal);
   }
 
   const handleAirdrop = () => {
@@ -199,7 +210,9 @@ function App(props) {
         : 
         <CoinDetails 
           handleInfo={handleInfo}
-          coinDetail={coinDetail}
+          handleBack={handleBack}
+          coinDescription={coinDescription}
+          coinTwitter={coinTwitter}
         /> 
       }
     </AppCss>

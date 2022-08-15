@@ -72,7 +72,7 @@ export default function Coin (props) {
    
    const handleInfoClick = (event) => {
       event.preventDefault();
-      props.handleInfo(props.ticker);
+      props.handleInfo(props.id);
    }
    const handleChange = (event) => {
       event.preventDefault();
