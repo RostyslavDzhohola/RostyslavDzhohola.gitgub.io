@@ -43,8 +43,9 @@ export default function CoinDetails(props) {
         props.handleBack(); // click back button to go back to CoinList
     }
     // destructring worked, I just didn't set the state before moving on and thas's why I couldn't use replace() function on a string.
-    console.log(" Coin Twitter request is ",props.coinTwitter);
+    console.count(" Coin Twitter " + props.coinTwitter);
     const description = props.coinDescription;
+    // console.log( " Coin Description is ", description);
     const descriptionFormatted = description.replace(/<a.*?>/g, '').replace(/<\/a>/g, ' ');
 
     return (

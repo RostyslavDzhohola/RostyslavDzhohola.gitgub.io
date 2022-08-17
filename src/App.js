@@ -11,7 +11,7 @@ const AppCss = styled.div`
   color: rgb(255, 255, 255); 
   width: 100%; 
 `
-const COIN_COUNT = 30;
+const COIN_COUNT = 10;
 const formatPrice = price => parseFloat(Number(price).toFixed(4));
 
 function App(props) {
@@ -21,6 +21,7 @@ function App(props) {
   const [coinDetailReveal, setCoinDetailReveal] = useState(false);
   const [coinDescription, setCoinDescription] = useState();
   const [coinTwitter, setCoinTwitter] = useState();
+  const [coinInfo, setCoinInfo] = useState([]);
 
   // const [coinBuySellAmount, setCoinBuySellAmount] = useState(0);
 
@@ -45,7 +46,10 @@ function App(props) {
         priceChange24h: parseFloat(Number(coin.price_change_percentage_24h).toFixed(2)),
       };
     });
-    setCoinData( coinData );
+    setCoinData(coinData);
+    // console.log(coinData);
+
+    // getCoinInfo();
     // const tickerURL = 'https://api.coinpaprika.com/v1/tickers/';
     // const promises = coinIDs.map(id => axios.get(tickerURL + id));
     // const coinData = await Promise.all(promises);
@@ -160,19 +164,27 @@ function App(props) {
     return success;
   }
 
-  // const getCoinInfo = () => {
-    
-
+  
 
   const handleInfo = async (valueChangeId) => {
     // debugger;
-    console.log("Coin id is ", valueChangeId);
-    const tickerURL = `https://api.coingecko.com/api/v3/coins/${valueChangeId}`;
-    const response = await axios.get(tickerURL);
-    const coinInfo = response.data.description.en;
-    const coinTwitter = response.data.links.twitter_screen_name;
-    setCoinTwitter(coinTwitter);
-    setCoinDescription(coinInfo);
+    // console.log("Coin id is ", valueChangeId);
+    // console.log("Coin info is ", coinInfo);
+    coinInfo.map((coin) => {
+      if (valueChangeId === coin.id) {
+        // console.log("Coin description is", coin.description);
+        console.count("Coin twitter website is " + coin.twitterName);
+        // alert("Coin description is " + coin.description);
+        setCoinTwitter(coin.twitterName );
+        setCoinDescription(coin.description);
+      }
+      return coin;
+    }); // --> Checking if the coin id is correct 
+    // const tickerURL = `https://api.coingecko.com/api/v3/coins/${valueChangeId}`;
+    // const response = await axios.get(tickerURL);
+    // const coinInfo = response.data.description.en;
+    // const coinTwitter = response.data.links.twitter_screen_name;
+    // console.log(coinInfoData);
     setCoinDetailReveal(!coinDetailReveal);
   }
 
@@ -188,7 +200,37 @@ function App(props) {
     if ( coinData.length === 0 ) {
       componentDidMount();
     }
-  }); 
+  });
+
+  useEffect(() => {
+    const getCoinInfo = async () => {
+      // debugger;
+      const tickerURL = 'https://api.coingecko.com/api/v3/coins/';
+      const promises = coinData.map(function(el){ 
+        // debugger;
+        // console.log("Coin id is ", el.id);
+        return axios.get(tickerURL + el.id);
+      });
+      const promisedCoinData = await Promise.all(promises);
+      const newCoinInfo = promisedCoinData.map( function(response) {
+        // console.log("Twitter screen name is ", response.data.links.twitter_screen_name);
+        const coin = response.data;
+        return {
+          key: coin.id,
+          id: coin.id,
+          description: coin.description.en,
+          twitterName: coin.links.twitter_screen_name,
+        }
+      });
+      console.log("newCoinInfo --> ",newCoinInfo);
+      console.count("GetInfo api called executed");
+      setCoinInfo(newCoinInfo);
+    }
+    if ( coinData.length > 0 ) {
+      getCoinInfo();
+    }
+  } , [coinData]);
+
 
   return (
     <AppCss>
