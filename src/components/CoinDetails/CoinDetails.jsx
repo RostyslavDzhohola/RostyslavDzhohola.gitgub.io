@@ -53,7 +53,7 @@ export default function CoinDetails(props) {
             <button type="button" onClick={handleBackClick}>To Coinlist</button>
             <Div>
                 <DivRow>
-                    <CoinData />
+                    <CoinData coinDataDetail={props.coinDataDetail}/>
                     <CoinTweets coinTwitter={props.coinTwitter}/>
                 </DivRow>
                 <DivDescription>{descriptionFormatted}</DivDescription>

@@ -63,7 +63,7 @@ export default function AccountBalanceHeader(props) {
   
   return (
       <Header>
-        <Img src={logo} alt="My logo"/>
+        <Img src={logo} alt="My logo" />
         <Section>
           <div>
             Crypto Balance:

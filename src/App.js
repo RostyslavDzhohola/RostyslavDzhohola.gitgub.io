@@ -22,6 +22,7 @@ function App(props) {
   const [coinDescription, setCoinDescription] = useState();
   const [coinTwitter, setCoinTwitter] = useState();
   const [coinInfo, setCoinInfo] = useState([]);
+  const [coinDataDetail, setCoinDataDetail] = useState();
 
   // const [coinBuySellAmount, setCoinBuySellAmount] = useState(0);
 
@@ -68,9 +69,10 @@ function App(props) {
 
   const calculateBalance = () => {
     let totalBalance = 0;
+    let coinBalance = 0;
     coinData.forEach(function( {price, balance}){
       totalBalance = totalBalance + (balance * price);
-      return totalBalance;
+      return [totalBalance, coinBalance];
     })
     setCashBalance(totalBalance + cashBalance); // Later change this to be a function that takes in the coinData and calculates the balance for each coin and adds it to the total balance
     console.log("Total balance is ",totalBalance);
@@ -168,23 +170,21 @@ function App(props) {
 
   const handleInfo = async (valueChangeId) => {
     // debugger;
-    // console.log("Coin id is ", valueChangeId);
-    // console.log("Coin info is ", coinInfo);
     coinInfo.map((coin) => {
       if (valueChangeId === coin.id) {
-        // console.log("Coin description is", coin.description);
         console.count("Coin twitter website is " + coin.twitterName);
-        // alert("Coin description is " + coin.description);
         setCoinTwitter(coin.twitterName );
         setCoinDescription(coin.description);
       }
       return coin;
-    }); // --> Checking if the coin id is correct 
-    // const tickerURL = `https://api.coingecko.com/api/v3/coins/${valueChangeId}`;
-    // const response = await axios.get(tickerURL);
-    // const coinInfo = response.data.description.en;
-    // const coinTwitter = response.data.links.twitter_screen_name;
-    // console.log(coinInfoData);
+    });
+    coinData.map((coin) => {
+      if (valueChangeId === coin.id) {
+        setCoinDataDetail(coin);
+        console.log("Coin detail for CoinData componnets is ", coin);
+      }
+      return coin;
+    });
     setCoinDetailReveal(!coinDetailReveal);
   }
 
@@ -255,6 +255,7 @@ function App(props) {
           handleBack={handleBack}
           coinDescription={coinDescription}
           coinTwitter={coinTwitter}
+          coinDataDetail={coinDataDetail}
         /> 
       }
     </AppCss>

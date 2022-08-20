@@ -10,7 +10,7 @@ export default function CoinTweets(props) {
       <TwitterTimelineEmbed
         sourceType="timeline"
         screenName={props.coinTwitter}
-        options={{height: 400}}
+        options={{height: 400, width: 400}}
       />
     </div>
   )
