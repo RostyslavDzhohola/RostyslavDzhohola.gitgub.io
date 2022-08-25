@@ -9,8 +9,14 @@ export default function CoinTweets(props) {
       Twitter feed for {props.coinTwitter}
       <TwitterTimelineEmbed
         sourceType="timeline"
+        onLoad={function noRefCheck(){}}
         screenName={props.coinTwitter}
-        options={{height: 400, width: 400}}
+        // make twitter embed scrollable 
+        options={{
+          height: 400, 
+          width: 400
+        }}
+        
       />
     </div>
   )
