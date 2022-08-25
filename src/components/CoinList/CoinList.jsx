@@ -34,7 +34,6 @@ export default function CoinList(props) {
                             priceChange24h={props.priceChange24h}
 
                             showBalance={props.showBalance}
-                            calculateBalance={props.calculateBalance}
                             handleInfo={props.handleInfo}
                             handleBuy={props.handleBuy}
                             handleSell={props.handleSell} />

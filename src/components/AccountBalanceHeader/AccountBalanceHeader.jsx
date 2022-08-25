@@ -67,6 +67,7 @@ export default function AccountBalanceHeader(props) {
         <Section>
           <div>
             Crypto Balance:
+            <div>{props.showBalance && ( <>${Number(props.cryptoBalance).toFixed(2)} </>)}</div>
 
           </div>
           <div>

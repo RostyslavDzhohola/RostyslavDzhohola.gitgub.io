@@ -11,11 +11,12 @@ const AppCss = styled.div`
   color: rgb(255, 255, 255); 
   width: 100%; 
 `
-const COIN_COUNT = 10;
+const COIN_COUNT = 20;
 const formatPrice = price => parseFloat(Number(price).toFixed(4));
 
 function App(props) {
   const [cashBalance, setCashBalance] = useState(10000);
+  const [cryptoBalance, setCryptoBalance] = useState(0);
   const [showBalance, setShowBalance] = useState(true);
   const [coinData, setCoinData] = useState([]);
   const [coinDetailReveal, setCoinDetailReveal] = useState(false);
@@ -27,7 +28,6 @@ function App(props) {
   // const [coinBuySellAmount, setCoinBuySellAmount] = useState(0);
 
   const componentDidMount = async () => {
-    calculateBalance();
 
     const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets',{
       params: {
@@ -65,17 +65,6 @@ function App(props) {
     //     price: coin.quotes.USD.price,
     //   }
     // });
-  }
-
-  const calculateBalance = () => {
-    let totalBalance = 0;
-    let coinBalance = 0;
-    coinData.forEach(function( {price, balance}){
-      totalBalance = totalBalance + (balance * price);
-      return [totalBalance, coinBalance];
-    })
-    setCashBalance(totalBalance + cashBalance); // Later change this to be a function that takes in the coinData and calculates the balance for each coin and adds it to the total balance
-    console.log("Total balance is ",totalBalance);
   }
 
   // const calculateEachCoinBalance = () => {
@@ -132,6 +121,7 @@ function App(props) {
         return newValues;
       }); 
       setCoinData(newCoinData);
+      // calculateBalance();
       success = true;
     } else {
       console.log("You don't have enough cash");
@@ -163,6 +153,7 @@ function App(props) {
       return newValues;
     }); 
     setCoinData(newCoinData);
+    // calculateBalance();
     return success;
   }
 
@@ -231,10 +222,25 @@ function App(props) {
     }
   } , [coinData]);
 
+  useEffect(() => {
+    const calculateBalance = () => {
+      let totalBalance = 0;
+      coinData.forEach(function( {price, coinBalance}){
+        totalBalance += price * coinBalance;
+        return totalBalance;
+      })
+      setCryptoBalance(totalBalance);
+      console.log("Total Coin balance is -->",totalBalance);
+    } 
+    if ( coinData.length > 0 ) {
+      calculateBalance();
+    }
+  } , [coinData]);
 
   return (
     <AppCss>
       <AccountBalanceHeader 
+        cryptoBalance={cryptoBalance}
         amount={cashBalance}
         showBalance={showBalance}
         handleHide={handleHide}
@@ -242,7 +248,6 @@ function App(props) {
       />
       { !coinDetailReveal ? 
         <CoinList 
-          calculateBalance={calculateBalance}
           coinData={coinData} 
           handleHide={handleHide}
           showBalance={showBalance}

@@ -44,8 +44,8 @@ export default function CoinData(props) {
       </DivHead>
       <DivDataView>
         <div>Balance: {coinDetail.coinBalance}</div>
-        <div>Price: {coinDetail.price}</div>
-        <div>priceChange24h: {coinDetail.priceChange24h}</div>
+        <div>Price: ${coinDetail.price}</div>
+        <div>24h: { parseFloat(Number(coinDetail.priceChange24h).toFixed(2))}%</div>
         <div>
           <ChartData
             name={coinDetail.name}

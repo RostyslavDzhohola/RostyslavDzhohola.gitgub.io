@@ -1,23 +1,25 @@
 import React from 'react';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import styled from 'styled-components';
 
+const TwitterDiv = styled.div`
+  height: 500px;
+  overflow: scroll;
+`
 
 export default function CoinTweets(props) {
   // debugger;
   return (
-    <div>
-      Twitter feed for {props.coinTwitter}
+    <TwitterDiv>
       <TwitterTimelineEmbed
-        sourceType="timeline"
+        sourceType="profile"
         onLoad={function noRefCheck(){}}
         screenName={props.coinTwitter}
         // make twitter embed scrollable 
-        options={{
-          height: 400, 
-          width: 400
+        options={{ 
+          width: 400,
         }}
-        
       />
-    </div>
+    </TwitterDiv>
   )
 }
