@@ -8,13 +8,11 @@ import TradeForm from './TradeForm';
 
 
 const Td = styled.td`
-   ${'' /* border: 2px solid black; */}
    width: 35vh;
    height: 10vh;
 `
 const TdCoinName = styled.td`
    width: 45vh;
-   ${'' /* border: 2px solid black; */}
 `
 const TdHidden = styled.td`
    ${'' /* border: 2px solid black; */}
@@ -39,11 +37,6 @@ const Div = styled.div`
    font-size: 3vh;
    font-weight: bold;
 `
-const DivTickerBox = styled.div`
-   display: flex;
-   flex-direction: row;
-   font-style: italic;
-`
 const DivBalance = styled.div`
    display: flex;
    flex-direction: column;
@@ -64,7 +57,7 @@ const Img = styled.img`
    border-radius: 1rem;
    &:hover {
       transform: scale(1.1);
-      background-color: green;
+      background-color: rgba(255, 74, 38, 0.8);
    }
    
 `
@@ -114,14 +107,18 @@ export default function Coin (props) {
       <TrCoin>
          <TdCoinName>
             <Div>
-               <img 
-                  src={props.image} 
-                  alt={props.name}
-                  className='w-10 h-10'  />
-               {props.name} 
-               <DivTickerBox>
+               <button onClick={handleInfoClick}>
+                  <img 
+                     src={props.image} 
+                     alt={props.name}
+                     className='w-10 h-10'  />
+               </button>
+               <button onClick={handleInfoClick}>
+                  <p className='hover:scale-110'>{props.name} </p>
+               </button>
+               <button>
                   <Img src={info} alt="info" onClick={handleInfoClick}/>
-               </DivTickerBox>
+               </button>
             </Div>
          </TdCoinName>
          <Td>${parseFloat(Number(props.price).toFixed(3))}</Td>

@@ -5,21 +5,20 @@ import CoinTweets from '../CoinTweets/CoinTweets';
 
 
 const Div = styled.div`
-    display: flex;  
+    display: flex; 
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 97%;
+    width: 100%;
     height: 100%;
-    border: 1px solid black;
     margin: 0 auto;
     color: black;
 `
 const DivRow = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: space-around;
+    align-items: flex-start;
     width: 100%;
     height: 100%;
 `
@@ -30,7 +29,6 @@ const DivDescription = styled.div`
     align-items: center;
     width: 100%;
     height: 100%; 
-    border: 1px solid black;
     margin: 0 auto;
     color: black;
 
@@ -49,14 +47,18 @@ export default function CoinDetails(props) {
     const descriptionFormatted = description.replace(/<a.*?>/g, '').replace(/<\/a>/g, ' ');
 
     return (
-        <>
-            <button type="button" onClick={handleBackClick}>To Coinlist</button>
+        <> 
             <Div>
                 <DivRow>
-                    <CoinData coinDataDetail={props.coinDataDetail}/>
+                    
+                    <CoinData 
+                        coinDataDetail={props.coinDataDetail}
+                        descriptionFormatted={descriptionFormatted}
+                        handleBackClick={handleBackClick} />
                     <CoinTweets coinTwitter={props.coinTwitter}/>
+                   
                 </DivRow>
-                <DivDescription>{descriptionFormatted}</DivDescription>
+                {/* <DivDescription>{descriptionFormatted}</DivDescription> */}
             </Div>
         </>
     )

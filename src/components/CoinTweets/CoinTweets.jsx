@@ -3,7 +3,8 @@ import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import styled from 'styled-components';
 
 const TwitterDiv = styled.div`
-  height: 500px;
+  height: 600px;
+
   overflow: scroll;
 `
 
@@ -17,7 +18,7 @@ export default function CoinTweets(props) {
         screenName={props.coinTwitter}
         // make twitter embed scrollable 
         options={{ 
-          width: 400,
+          width: 600,
         }}
       />
     </TwitterDiv>
