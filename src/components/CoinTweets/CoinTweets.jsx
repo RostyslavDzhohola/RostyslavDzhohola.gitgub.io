@@ -18,7 +18,7 @@ export default function CoinTweets(props) {
         screenName={props.coinTwitter}
         // make twitter embed scrollable 
         options={{ 
-          width: 600,
+          width: 550,
         }}
       />
     </TwitterDiv>

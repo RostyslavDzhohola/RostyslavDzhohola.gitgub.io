@@ -22,17 +22,6 @@ const DivRow = styled.div`
     width: 100%;
     height: 100%;
 `
-const DivDescription = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 100%; 
-    margin: 0 auto;
-    color: black;
-
-`
 
 export default function CoinDetails(props) {
     // debugger;
@@ -47,19 +36,16 @@ export default function CoinDetails(props) {
     const descriptionFormatted = description.replace(/<a.*?>/g, '').replace(/<\/a>/g, ' ');
 
     return (
-        <> 
-            <Div>
+        <div className='mx-10'>
+            <Div >
                 <DivRow>
-                    
                     <CoinData 
                         coinDataDetail={props.coinDataDetail}
                         descriptionFormatted={descriptionFormatted}
                         handleBackClick={handleBackClick} />
                     <CoinTweets coinTwitter={props.coinTwitter}/>
-                   
                 </DivRow>
-                {/* <DivDescription>{descriptionFormatted}</DivDescription> */}
             </Div>
-        </>
+        </div>
     )
 }
