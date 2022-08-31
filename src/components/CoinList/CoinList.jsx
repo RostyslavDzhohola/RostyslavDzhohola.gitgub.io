@@ -3,23 +3,28 @@ import Coin from '../Coin/Coin';
 import styled from 'styled-components';
 
 const Table = styled.table`
-    margin: 50px auto 50px auto;
+    border-collapse: collapse;
+    margin: 50px 40px 50px 40px;
     display: inline-block;
     font-size: 1.5rem;
     color: black;
+    border-top: 1px solid black;
 `
-
+const TrRow = styled.tr`
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+`
 export default function CoinList(props) {
     return (
         <Table>
             <thead>
-            <tr>
+            <TrRow>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Chart 24H</th>
                 <th>Balance</th>
                 <th>Action</th>
-            </tr>
+            </TrRow>
             </thead>
             <tbody>
             { 

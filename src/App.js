@@ -6,8 +6,7 @@ import CoinDetails from './components/CoinDetails/CoinDetails';
 import axios from 'axios';
 
 const AppCss = styled.div`
-  text-align: center;
-  background-color: white ; 
+  text-align: center; 
   color: rgb(255, 255, 255); 
   width: 100%; 
 `
@@ -238,7 +237,7 @@ function App(props) {
   } , [coinData]);
 
   return (
-    <AppCss>
+    <AppCss className='bg-gradient-to-b from-cyan-400 to-blue-400'>
       <AccountBalanceHeader 
         cryptoBalance={cryptoBalance}
         amount={cashBalance}

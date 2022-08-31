@@ -1,5 +1,6 @@
 import logo from './Egg.png';
 import styled from 'styled-components';
+import HideToggle from './HideToggle';
 
 const Header = styled.header`
   display: flex;
@@ -23,7 +24,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: raw;
   justify-content: space-between;
-  width: 28rem;
+  width: 33rem;
   font: bold;
   font-size: 1.2rem;
     ${'' /* width: 50%;
@@ -34,48 +35,50 @@ const Section = styled.section`
     border-bottom: 1px solid black; */}
 `;
 
-const Button = styled.button`
-  margin: 1em;
-  padding: 0.25em 0.5em;
-    ${'' /* background-color: #A6FFB5;
-    font-weight: bold;
-    font-size: 1rem;
-    position: absolute;
-    margin-top: 1.5rem;
-    left: 100%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    align: right; */}
 
-`;
 export default function AccountBalanceHeader(props) {
-  const handleClick = (event) => {
-    event.preventDefault();
-    props.handleHide();       
-  }
-
   const handleAirdrop = (event) => {
     event.preventDefault();
     props.handleAirdrop();
   }
-
-  const buttonText = props.showBalance ? 'Hide' : 'Show';
   
   return (
-      <Header>
-        <Img src={logo} alt="My logo" />
+      <Header  className='px-10 bg-gradient-to-r from-cyan-500 to-blue-700'>
+        <a href="https://www.boredelonunicorn.club/" target="_blank" rel="noreferrer">
+          <Img src={logo} alt="My logo" ></Img>
+        </a>
         <Section>
-          <div>
-            Crypto Balance:
-            <div>{props.showBalance && ( <>${Number(props.cryptoBalance).toFixed(2)} </>)}</div>
+          <div className='px-5'>
+            Crypto Balance
+            <div>
+              {props.showBalance ? 
+                ( <>${Number(props.cryptoBalance).toFixed(2)} </>)
+                : 
+                ( <>Hidden</>)
+              }
+            </div>
 
           </div>
-          <div>
-            <div>Cash Balance: </div>
-            <div>{props.showBalance && (<> ${Number(props.amount).toFixed(2)}</>)}</div>
+          <div className='px-5'>
+            <div>Cash Balance </div>
+            <div>
+              
+              {props.showBalance ?
+                (<> ${Number(props.amount).toFixed(2)}</>)
+                : 
+                ( <>Hidden</>) 
+              }
+            </div>
           </div>
-          <Button onClick={handleClick}>{buttonText}</Button>
-          <Button onClick={handleAirdrop}>Airdrop</Button>
+          <div className='flex flex-col justify-around'>
+            <HideToggle handleHide={props.handleHide}/>
+          </div>
+          <div className='flex flex-col justify-around'>
+            <button 
+              type='button'
+              onClick={handleAirdrop}
+              className="inline-flex items-center rounded border border-cyan-300   select-none bg-emerald-500 px-2.5 py-1.5 h-6 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 hover:scale-110 active:scale-100" >Airdrop</button>
+          </div>
         </Section>
       </Header>
       

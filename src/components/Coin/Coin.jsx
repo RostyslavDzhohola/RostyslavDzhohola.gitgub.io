@@ -4,25 +4,34 @@ import styled from 'styled-components';
 import info from  './info.png';
 import { useState } from 'react';
 import ChartData from '../Chart/ChartData';
+import TradeForm from './TradeForm';
+
 
 const Td = styled.td`
-   border: 2px solid black;
-   width: 25vh;
+   ${'' /* border: 2px solid black; */}
+   width: 35vh;
+   height: 10vh;
 `
 const TdCoinName = styled.td`
-   width: 30vh;
-   border: 2px solid black;
+   width: 45vh;
+   ${'' /* border: 2px solid black; */}
 `
 const TdHidden = styled.td`
-   border: 2px solid black;
-   height: 0vh;
+   ${'' /* border: 2px solid black; */}
+   height: 10vh;
    width: 35vh;
-   font-size: 2.4rem;
+   font-size: 1.5rem;
 `
 // TdChart is a temprorary component that will be replaced by a Chart component
 const TdChart = styled.td`     
-   border: 2px solid black;
+   ${'' /* border: 2px solid black; */}
 `
+const TrCoin = styled.tr`
+   border-top: 1px solid black;
+   border-bottom: 1px solid black;
+
+`
+
 const Div = styled.div`
    display: flex;
    flex-direction: row;
@@ -38,9 +47,17 @@ const DivTickerBox = styled.div`
 const DivBalance = styled.div`
    display: flex;
    flex-direction: column;
-   width: 30vh;
+   width: 35vh;
    font-size: 1.2rem;
+   height: 9vh;
 `
+const DivCryptoBalance = styled.div`
+   margin: 5px 0px 5px 0px; 
+   font-size: 0.8em;
+   font-weight: bold;
+   height: 9vh;
+`
+
 const Img = styled.img`
    align-self: center;
    height: 1.5rem;
@@ -51,21 +68,21 @@ const Img = styled.img`
    }
    
 `
-const Button = styled.button`
-`
+// const Button = styled.button`
+// `
 const Form = styled.form`
    display: flex;
    flex-direction: row;
    justify-content: space-between;
 `
-const ImgGraph = styled.img`
-`
-const DivTicker = styled.div`
-   display: flex;
-   align-items: center;
-   font-size: 0.8rem;
-   font-weight: bold;
-`
+// const ImgGraph = styled.img`
+// `
+// const DivTicker = styled.div`
+//    display: flex;
+//    align-items: center;
+//    font-size: 0.8rem;
+//    font-weight: bold;
+// `
 
 export default function Coin (props) {
    const [coinInput, setCoinInput] = useState(0);
@@ -94,12 +111,15 @@ export default function Coin (props) {
    }
 
    return (
-      <tr>
+      <TrCoin>
          <TdCoinName>
             <Div>
+               <img 
+                  src={props.image} 
+                  alt={props.name}
+                  className='w-10 h-10'  />
                {props.name} 
                <DivTickerBox>
-                  <DivTicker>{props.ticker}</DivTicker>
                   <Img src={info} alt="info" onClick={handleInfoClick}/>
                </DivTickerBox>
             </Div>
@@ -113,27 +133,34 @@ export default function Coin (props) {
          {props.showBalance ? (
             <Td>
                <DivBalance>
-                  <div>${ Number(props.coinBalance * props.price).toFixed(2)}</div>
-                  <div>{parseFloat(Number(props.coinBalance).toFixed(5))} {props.ticker}</div>
+                  <div >${ Number(props.coinBalance * props.price).toFixed(2)}</div>
+                  <DivCryptoBalance>{parseFloat(Number(props.coinBalance).toFixed(5))} {props.ticker.toUpperCase()}</DivCryptoBalance>
                </DivBalance>
             </Td>) : (<TdHidden>Hidden</TdHidden>)}
 
          <Td>
             <Form action="#" method="POST">
-               <Button onClick={handleBuy}>Buy</Button>
-               $
-               <input   
-                  type="number" 
-                  min="0" 
-                  placeholder={0} 
-                  name="price"
-                  onChange={handleChange}
-                  value={coinInput}
-                  />
-               <Button onClick={handleSell}>Sell</Button>
+               <button
+                  type="button"
+                  onClick={handleBuy}
+                  className="inline-flex items-center px-3 mx-1 py-1.5 border border-green-300 text-xs font-medium rounded-full shadow-sm text-white bg-green-500 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+               >
+                  BUY
+               </button>
+               <TradeForm
+                  handleChange={handleChange}
+                  coinInput={coinInput}
+               />
+               <button
+                  type="button"
+                  onClick={handleSell}
+                  className="inline-flex items-center px-3 mx-1 py-1.5 border border-red-300 text-xs font-medium rounded-full shadow-sm text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+               >
+                  SELL
+               </button>
             </Form>
          </Td>
-      </tr>
+      </TrCoin>
    );
 }
 
